@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resource :user
   
   resources :teams do
+    get 'authority_transfer'
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do
       resources :articles do

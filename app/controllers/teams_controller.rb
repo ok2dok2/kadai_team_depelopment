@@ -21,7 +21,7 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     @team.owner = current_user
     if @team.save
-      @team.invite_member(@team.owner)
+      @team.invite_member(@team.owner)  #これ？？
       redirect_to @team, notice: I18n.t('views.messages.create_team')
     else
       flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
@@ -47,6 +47,16 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def authority_transfer
+    #binding.pry
+    @team = Team.find(params[:team_id])
+    @assign = Assign.find(params[:assign])
+    if @team.update(owner_id: @assign.user_id)
+      TeamMailer.leader_change(@assign).deliver
+    end
+    redirect_to team_path(@team.id)
+    #@team.invite_member(@team)
+  end
   private
 
   def set_team
