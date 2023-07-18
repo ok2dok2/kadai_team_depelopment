@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_035232) do
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
-    t.integer "owner_id"
+    t.integer "owner_id" #ここ？？
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "icon"
